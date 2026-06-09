@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Fig 1 - Form Validation</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; display: flex; justify-content: center; padding: 40px; }
+    .form-box { background: #fff; padding: 30px; border-radius: 8px; width: 400px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    h2 { margin-bottom: 20px; color: #333; }
+    label { font-size: 13px; color: #555; display: block; margin-bottom: 4px; }
+    input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 6px; font-size: 14px; box-sizing: border-box; }
+    input.error { border-color: #e74c3c; }
+    .msg { font-size: 12px; color: #e74c3c; margin-bottom: 10px; display: none; }
+    .msg.show { display: block; }
+    button { width: 100%; padding: 11px; background: #2c3e50; color: #fff; border: none; border-radius: 5px; font-size: 14px; cursor: pointer; }
+    button:hover { background: #1a252f; }
+    .success { color: #27ae60; font-size: 14px; text-align: center; margin-top: 12px; display: none; }
+  </style>
+</head>
+<body>
+<div class="form-box">
+  <h2>Student Registration</h2>
+
+  <label>Full Name *</label>
+  <input type="text" id="name" placeholder="Enter full name"/>
+  <div class="msg" id="name-err">Name is required.</div>
+
+  <label>Email Address *</label>
+  <input type="email" id="email" placeholder="Enter email"/>
+  <div class="msg" id="email-err">A valid email is required.</div>
+
+  <label>Course *</label>
+  <input type="text" id="course" placeholder="Enter course"/>
+  <div class="msg" id="course-err">Course is required.</div>
+
+  <label>Password *</label>
+  <input type="password" id="password" placeholder="Enter password"/>
+  <div class="msg" id="pass-err">Password must be at least 6 characters.</div>
+
+  <button onclick="validateForm()">Submit</button>
+  <div class="success" id="success-msg">✓ Form submitted successfully!</div>
+</div>
+
+<script>
+  function validateForm() {
+    let valid = true;
+
+    // Clear previous errors
+    document.querySelectorAll('.msg').forEach(m => m.classList.remove('show'));
+    document.querySelectorAll('input').forEach(i => i.classList.remove('error'));
+
+    const name     = document.getElementById('name');
+    const email    = document.getElementById('email');
+    const course   = document.getElementById('course');
+    const password = document.getElementById('password');
+
+    // Name check
+    if (name.value.trim() === '') {
+      document.getElementById('name-err').classList.add('show');
+      name.classList.add('error');
+      valid = false;
+    }
+
+    // Email check
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email.value.trim())) {
+      document.getElementById('email-err').classList.add('show');
+      email.classList.add('error');
+      valid = false;
+    }
+
+    // Course check
+    if (course.value.trim() === '') {
+      document.getElementById('course-err').classList.add('show');
+      course.classList.add('error');
+      valid = false;
+    }
+
+    // Password check
+    if (password.value.length < 6) {
+      document.getElementById('pass-err').classList.add('show');
+      password.classList.add('error');
+      valid = false;
+    }
+
+    if (valid) {
+      document.getElementById('success-msg').style.display = 'block';
+    }
+  }
+</script>
+</body>
+</html>
